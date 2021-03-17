@@ -1,0 +1,34 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{ 
+
+    string id = "d3bd0135-480e-4f78-af92-74af83b6e6a3";
+    bool IsAdmin = id == UserManager.GetUserId(User);
+    //IdentityUser currentUser = await UserManager.GetUserAsync(User);
+
+}
+
+
+<ul class="navbar-nav padding_right">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link nav_elem_color" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-link nav_elem_color">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link nav_elem_color" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link nav_elem_color" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+</ul>

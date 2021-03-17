@@ -1,0 +1,69 @@
+﻿@model IEnumerable<BlogSite.Models.BlogPost>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+
+    string id = "d3bd0135-480e-4f78-af92-74af83b6e6a3";
+    bool IsAdmin = id == UserManager.GetUserId(User);
+
+}
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container-fluid page_title">
+    <h1>My blog posts</h1>
+
+    @if (IsAdmin)
+    {
+        <p>
+            <a class="btn btn-primary btn_create" asp-action="Create">Create New Blog Post</a>
+        </p>
+    }
+</div>
+
+<div class="container-fluid posts_container">
+
+    @foreach (var item in Model)
+    {
+        string first_sentece="";
+    <a asp-action="ShowBlogPost" asp-route-id=@item.Id class="BlogPost_index card shadow">
+        <div class="row g-0">
+            <div class="col-md-4">
+                @if (item.ImageUrl != null)
+                {
+                    <img class="post_image_index" src=@item.ImageUrl>
+                }
+                else
+                {
+                    <div class="post_image_index no_image"></div>
+                }
+            </div>
+           
+        <div class="card-body col-md-8">
+            <div class="align_day_published">
+                <p class="card-text post_day_published">Posted on @Html.DisplayFor(modelItem => item.Day_published)</p>
+            </div>
+            <h1 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h1>
+            @foreach (char i in item.Text)
+            {
+                first_sentece += i;
+                if (i.Equals('.'))
+                {
+                    break;
+                }
+
+            }
+            <p class="card-text card_text_margin">@first_sentece </p>
+            @if (IsAdmin)
+            {
+                <p class="card-text card_text_margin item_id blog_id text-left">Blog Id: @item.Id</p>
+            }
+        </div>
+        </div>
+    </a>
+
+    }
+</div>

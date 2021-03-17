@@ -1,0 +1,84 @@
+﻿@model BlogSite.Models.PostComment
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "Edit your comment";
+    string id = "d3bd0135-480e-4f78-af92-74af83b6e6a3";
+    bool IsAdmin = id == UserManager.GetUserId(User);
+    string name = User.Identity.Name;
+}
+@if (name == Model.OriginalPoster || IsAdmin)
+{
+    <div class="container-fluid form_container">
+        <h1>Edit your comment</h1>
+
+        <hr />
+        <div class="row">
+            <div class="col-md-4 form_width">
+                <form asp-action="Edit">
+                    @if (IsAdmin)
+                    {
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group">
+                            <label asp-for="PostId" class="control-label"></label>
+                            <input asp-for="PostId" class="form-control" />
+                            <span asp-validation-for="PostId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OriginalPoster" class="control-label"></label>
+                            <input asp-for="OriginalPoster" class="form-control" />
+                            <span asp-validation-for="OriginalPoster" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Comment_Day_published" class="control-label"></label>
+                            <input asp-for="Comment_Day_published" class="form-control" />
+                            <span asp-validation-for="Comment_Day_published" class="text-danger"></span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group" style="display:none">
+                            <label asp-for="PostId" class="control-label"></label>
+                            <input asp-for="PostId" class="form-control" />
+                            <span asp-validation-for="PostId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" style="display:none">
+                            <label asp-for="OriginalPoster" class="control-label"></label>
+                            <input asp-for="OriginalPoster" class="form-control" />
+                            <span asp-validation-for="OriginalPoster" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" style="display:none">
+                            <label asp-for="Comment_Day_published" class="control-label"></label>
+                            <input asp-for="Comment_Day_published" class="form-control" />
+                            <span asp-validation-for="Comment_Day_published" class="text-danger"></span>
+                        </div>
+                    }
+
+                    <div class="form-group">
+                        <label asp-for="CommentText" class="control-label"></label>
+                        <textarea asp-for="CommentText" class="form-control"></textarea>
+                        <span asp-validation-for="CommentText" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a class="btn btn-danger" asp-route-id=@Model.PostId asp-controller="BlogPosts" asp-action="ShowBlogPost">Cancel</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container-fluid">
+        <h1>You are not the original poster of this comment!!</h1>
+        <a class="btn btn-danger" asp-controller="BlogPosts" asp-action="Index">Go back</a>
+    </div>
+}

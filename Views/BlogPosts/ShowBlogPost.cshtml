@@ -1,0 +1,72 @@
+﻿@model BlogSite.Models.BlogPost
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    BlogPost Model = ViewBag.blogPost;
+    IEnumerable<PostComment> Comments = ViewBag.Comments;
+    ViewData["Title"] = Model.Title;
+    string id = "d3bd0135-480e-4f78-af92-74af83b6e6a3";
+    bool IsAdmin = id == UserManager.GetUserId(User);
+}
+
+
+<div class="container-fluid form_container">
+    <div class="post_info">
+        <h1>@Model.Title</h1>
+        <p>By Iorga Florin Alexandru</p>
+        <p>Posted on @Model.Day_published</p>
+        <div class="showblog_buttons">
+            <a class="btn btn-primary" asp-action="Index">Back to List</a>
+            @if (IsAdmin)
+            {
+                <span class="admin_buttons">
+                    <a class="btn btn-primary" asp-action="Edit" asp-route-id=@Model.Id>Edit</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id=@Model.Id>Delete</a>
+                </span>
+            }
+        </div>
+
+    </div>
+    <div class="post_story">
+        @if (Model.ImageUrl != null)
+        {
+            <img class="post_image image_shape" src=@Model.ImageUrl>
+        }
+        <p>@Model.Text</p>
+    </div>
+    <div class="post_comments">
+        <a class="btn btn-primary" asp-route-id=@Model.Id asp-controller="PostComments" asp-action="RedirectToCreate">Create a new comment</a>
+        @foreach (var item in Comments)
+        {
+            if (item.PostId == Model.Id)
+            {
+                <div class="card comment_card" style="width: 100%;">
+                    <div class="card-body">
+                        @if (item.OriginalPoster == "alex@yahoo.com")
+                        {
+                            <h5 class="card-title blogowner_comment text-left"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                            </svg> @item.OriginalPoster</h5>
+                        }
+                        else
+                        {
+                            <h5 class="card-title text-left">@item.OriginalPoster</h5>
+                        }
+                        <h6 class="card-subtitle mb-2 text-muted">@item.Comment_Day_published</h6>
+                        <p class="card-text">@item.CommentText</p>
+                    </div>
+                    <div class="comment_buttons">
+                        @if (IsAdmin || item.OriginalPoster == User.Identity.Name)
+                        {
+                        <a class="btn btn-primary" asp-route-id=@item.Id asp-controller="PostComments" asp-action="Edit">Edit</a>
+                        <a class="btn btn-danger" asp-route-id=@item.Id asp-controller="PostComments" asp-action="Delete">Delete</a>
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+</div>
+

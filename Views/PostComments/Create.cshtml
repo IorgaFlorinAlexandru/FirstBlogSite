@@ -1,0 +1,48 @@
+﻿@model BlogSite.Models.PostComment
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "Create";
+    string name = User.Identity.Name;
+}
+<div class="container-fluid form_container">
+    <h1>Post a Comment</h1>
+
+    <hr />
+    <div class="row">
+        <div class="col-md-4 form_width">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group" style="display:none">
+                    <label asp-for="PostId" class="control-label"></label>
+                    <input asp-for="PostId" class="form-control" value=@ViewBag.Postid />
+                    <span asp-validation-for="PostId" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="display:none">
+                    <label asp-for="OriginalPoster" class="control-label"></label>
+                    <input asp-for="OriginalPoster" class="form-control" value=@name />
+                    <span asp-validation-for="OriginalPoster" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="display:none">
+                    <label asp-for="Comment_Day_published" class="control-label"></label>
+                    <input asp-for="Comment_Day_published" class="form-control" value=@DateTime.Now />
+                    <span asp-validation-for="Comment_Day_published" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CommentText" class="control-label"></label>
+                    <textarea asp-for="CommentText" class="form-control" >Your comment here</textarea>
+                    <span asp-validation-for="CommentText" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a class="btn btn-danger" asp-controller="BlogPosts" asp-action="ShowBlogPost" asp-route-id=@ViewBag.Postid>Cancel</a>
+    </div>
+
+</div>

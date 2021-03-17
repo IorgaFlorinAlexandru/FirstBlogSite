@@ -1,0 +1,62 @@
+﻿@model BlogSite.Models.BlogPost
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "Edit " + Model.Title;
+    string id = "d3bd0135-480e-4f78-af92-74af83b6e6a3";
+    bool IsAdmin = id == UserManager.GetUserId(User);
+}
+@if (IsAdmin)
+{
+    <div class="container-fluid form_container">
+        <h1>Edit</h1>
+
+        <h4>BlogPost</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4 form_width">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group posted_time">
+                        <label asp-for="Day_published" class="control-label"></label>
+                        <input asp-for="Day_published" class="form-control" />
+                        <span asp-validation-for="Day_published" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ImageUrl" class="control-label"></label>
+                        <input asp-for="ImageUrl" class="form-control" />
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Text" class="control-label"></label>
+                        <textarea asp-for="Text" class="form-control"></textarea>
+                        <span asp-validation-for="Text" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a class="btn btn-danger" asp-action="ShowBlogPost" asp-route-id=@Model.Id>Cancel</a>
+        </div>
+    </div>
+}
+else
+{   <div class="container-fluid">
+        <h1>You are not the owner!!</h1>
+        <a class="btn btn-danger" asp-action="ShowBlogPost" asp-route-id=@Model.Id>Go back</a>
+    </div>
+}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

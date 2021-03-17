@@ -1,0 +1,80 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{ 
+    string id = "d3bd0135-480e-4f78-af92-74af83b6e6a3";
+    bool IsAdmin = id == UserManager.GetUserId(User);
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BlogSite</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header class="backgroundcolor_bar">
+        <div class="navbar_container justify-content-center">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow">
+                <div class="container">
+                    <a class="navbar-brand nav_elem_color  padding_left resp_logo" asp-area="" asp-controller="Home" asp-action="Index">BlogSite</a>
+                    <button class="navbar-toggler nav_elem_color" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="nav_elem_color">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+                            </svg>
+                        </span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item responsive_element">
+                                <a class="nav-link nav_elem_color" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav_elem_color" asp-area="" asp-controller="BlogPosts" asp-action="Index">My posts</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav_elem_color" asp-area="" asp-controller="Messages" asp-action="Create">Contact me</a>
+                            </li>
+                            @if (IsAdmin)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link nav_elem_color" asp-area="" asp-controller="PostComments" asp-action="Index">All comments</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link nav_elem_color" asp-area="" asp-controller="Messages" asp-action="Index">My messages</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link nav_elem_color" asp-area="" asp-controller="Messages" asp-action="Index">Your messages</a>
+                                </li>
+                            }
+                        </ul>
+                        <partial name="_LoginPartial" />
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted backgroundcolor_bar">
+        <div class="container padding_left">
+            &copy; 2021 - Made by Iorga Florin Alexandru - <a class="nav_elem_color" asp-area="" asp-controller="Home" asp-action="Index">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<BlogSite.Models.PostComment>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "Index";
+    string id = "d3bd0135-480e-4f78-af92-74af83b6e6a3";
+    bool IsAdmin = id == UserManager.GetUserId(User);
+}
+@if (IsAdmin)
+{
+<div class="comments_container_index">
+    <div class="comments_index">
+        <h1>All comments</h1>
+
+        @foreach (var item in Model)
+        {
+            <div class="card comment_card" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title card-title-margin">Poster: @item.OriginalPoster</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@item.Comment_Day_published</h6>
+                    <p class="card-text">@item.CommentText</p>
+                    <p class="card-text item_id">Post id: @item.Id</p>
+                </div>
+                <div class="comment_buttons">
+                    <a class="btn btn-primary" asp-route-id=@item.Id asp-controller="PostComments" asp-action="Edit">Edit</a>
+                    <a class="btn btn-danger" asp-route-id=@item.Id asp-controller="PostComments" asp-action="Delete">Delete</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+}
+else
+{
+    <div class="container-fluid">
+        <h1>You are not the owner!!</h1>
+        <a class="btn btn-danger" asp-controller="BlogPosts" asp-action="Index">Go back</a>
+    </div>
+}
+

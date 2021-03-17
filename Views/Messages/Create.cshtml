@@ -1,0 +1,52 @@
+﻿@model BlogSite.Models.Message
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "Send me a message";
+}
+<div class="container-fluid form_container">
+    <h1>Send me a message</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4 form_width">
+            
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Subject" class="control-label"></label>
+                    <input asp-for="Subject" class="form-control" />
+                    <span asp-validation-for="Subject" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="display:none;">
+                    <label asp-for="Author" class="control-label"></label>
+                    <input asp-for="Author" class="form-control" value=@User.Identity.Name />
+                    <span asp-validation-for="Author" class="text-danger"></span>
+                </div>
+                <div class="form-group" >
+                    <label asp-for="PhoneNumber" class="control-label"></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="display:none;">
+                    <label asp-for="Time_Sent" class="control-label"></label>
+                    <input asp-for="Time_Sent" class="form-control" value=@DateTime.Now />
+                    <span asp-validation-for="Time_Sent" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Message_Text" class="control-label"></label>
+                    <textarea asp-for="Message_Text" class="form-control">Message</textarea>
+                    <span asp-validation-for="Message_Text" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a class="btn btn-danger" asp-controller="Home" asp-action="Index">Cancel</a>
+    </div>
+
+</div> 

@@ -1,0 +1,65 @@
+﻿@model BlogSite.Models.BlogPost
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "Delete " + Model.Title;
+    string id = "d3bd0135-480e-4f78-af92-74af83b6e6a3";
+    bool IsAdmin = id == UserManager.GetUserId(User);
+    string first_sentence="";
+}
+
+@if (IsAdmin)
+{
+    <div class="container-fluid form_container">
+        <h1>Delete</h1>
+
+        <h3>Are you sure you want to delete this?</h3>
+        <div>
+            <h4>BlogPost</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Title)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Title)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Day_published)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Day_published)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Text)
+                </dt>
+                <dd class="col-sm-10">
+                    @foreach (char i in Model.Text)
+                    {
+                        first_sentence += i;
+                        if (i.Equals('.'))
+                        {
+                            break;
+                        }
+
+                    }
+                    @first_sentence ....
+                </dd>
+            </dl>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                <a class="btn btn-danger" asp-action="ShowBlogPost" asp-route-id=@Model.Id>Cancel</a>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container-fluid">
+        <h1>You are not the owner!!</h1>
+        <a class="btn btn-danger" asp-action="ShowBlogPost" asp-route-id=@Model.Id>Go back</a>
+    </div>
+}
