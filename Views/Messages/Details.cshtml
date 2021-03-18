@@ -10,46 +10,24 @@
 }
 @if (IsAdmin || name == Model.Author)
 {
-    <div class="container-fluid form_container">
-        <div>
-            <h4>Message</h4>
-            <hr />
-            <dl class="row">
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Subject)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Subject)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Author)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Author)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.PhoneNumber)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.PhoneNumber)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Time_Sent)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Time_Sent)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Message_Text)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Message_Text)
-                </dd>
-            </dl>
+    <div class="container-fluid form_container msg_container">
+        <div class="msg_info">
+            <h3>Message from @Model.Author</h3>
+            <p class="msg_p">Sent at @Model.Time_Sent</p>
+            @if (IsAdmin)
+            {
+                <p class="msg_p">Message Id: @Model.Id</p>
+            }
+        </div>
+        <div class="message">
+            <h4>Subject: @Model.Subject</h4>
+            <p>@Html.DisplayFor(model => model.Message_Text)</p>
+        </div>
+        <div class="msg_extra">
+            <p class="msg_p">Phone Number: @Model.PhoneNumber</p>
         </div>
         <div>
-            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> 
-            <a class="btn btn-primary" asp-action="Index">Back to List</a>
+            <a class="btn btn-primary" asp-action="Index">Back to your messages</a>
         </div>
     </div>
 }

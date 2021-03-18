@@ -26,6 +26,11 @@ namespace BlogSite.Controllers
             return View(await _context.BlogPost.ToListAsync());
         }
 
+        public async Task<IActionResult> ShowSearchResults(String SearchWord)
+        {
+            return View("Index", await _context.BlogPost.Where(m => m.Title.Contains(SearchWord)).ToListAsync());
+        }
+
         // GET: BlogPosts/Details/5
         [Authorize]
         public async Task<IActionResult> ShowBlogPost(int? id)

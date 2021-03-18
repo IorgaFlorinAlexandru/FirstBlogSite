@@ -243,6 +243,11 @@ body {
     font-size:0.7rem;
 }
 
+.search_label{
+    font-size:2rem;
+    margin-top:2rem;
+}
+
 /*Home index*/
 .home_index_container {
     background-image: url("../Images/Mountains.jpg");
@@ -378,6 +383,41 @@ body {
 
 .btn_contact{
     margin-top:2rem;
+}
+
+.msg_info{
+    border-bottom:1px solid rgba(0,0,0,.1);
+    padding-bottom:1rem;
+}
+
+.msg_info p{
+    margin-bottom:0;
+}
+
+.message {
+    margin-top: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    padding-bottom:2rem;
+}
+
+.message p{
+    font-size:1.4rem;
+    margin-top:1rem;
+}
+
+.msg_extra{
+    margin-top:1rem;
+}
+
+.msg_container{
+    background-color:#fff;
+    margin-top:2rem;
+    padding-bottom:2rem;
+}
+
+.msg_p{
+    color:grey;
+    font-size:0.8rem;
 }
 
 @media (max-width: 768px) {
