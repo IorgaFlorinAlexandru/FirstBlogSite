@@ -11,15 +11,30 @@
 <div class="container-fluid msg_index_container">
 
     <div class="msg_cont">
-        <h1>Your messages</h1>
-        <a a asp-action="Create" class="btn btn-primary btn_contact">Contact me now!</a>
+
+        @if (!IsAdmin)
+        {
+            <h1>Your sent messages to me!</h1>
+            <a a asp-action="Create" class="btn btn-primary btn_contact">Contact me now!</a>
+        }
+        else
+        {
+            <h1>My messages</h1>
+        }
         @foreach (var item in Model)
         {
             if (IsAdmin || name == item.Author)
             {
                 <div class="card message_card">
                     <div class="card-body">
-                        <h5 class="card-title text-left">From @item.Author</h5>
+                        @if (IsAdmin)
+                        {
+                            <h5 class="card-title text-left">From @item.Author</h5>
+                        }
+                        else
+                        {
+                            <h5 class="card-title text-left">Message sent to Alex</h5>
+                        }
                         <h6 class="card-subtitle mb-2 text-muted">Sent at @item.Time_Sent</h6>
                         <p class="card-text">@item.Subject</p>
                         <a asp-route-id=@item.Id asp-action="Details" class="btn btn-primary card-link">View</a>
